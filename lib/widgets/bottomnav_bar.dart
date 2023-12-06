@@ -26,6 +26,7 @@ class _NavBarState extends State<NavBar> {
     const SearchPage(),
     const ProfilePage()
   ];
+  final _advancedDrawerController = AdvancedDrawerController();
 
 
   @override
@@ -33,105 +34,59 @@ class _NavBarState extends State<NavBar> {
     List<Song> songsData =
         Provider.of<SongsProvider>(context, listen: false).songsProviderList;
 
-    return Scaffold(
+    return AdvancedDrawer(
+      backdrop: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [custom_colors.pinkPrimary, custom_colors.blackSecondary.withOpacity(0.7)],
+          ),
+        ),
+      ),
+      controller: _advancedDrawerController,
+      animationCurve: Curves.easeInOut,
+      animationDuration: const Duration(milliseconds: 300),
+      animateChildDecoration: true,
+      rtlOpening: false,
+      // openScale: 1.0,
+      disabledGestures: false,
+      childDecoration: const BoxDecoration(
+        // NOTICE: Uncomment if you want to add shadow behind the page.
+        // Keep in mind that it may cause animation jerks.
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //     color: Colors.black12,
+        //     blurRadius: 0.0,
+        //   ),
+        // ],
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+      ),
+      child: Scaffold(backgroundColor: custom_colors.background,
       appBar: AppBar(
         backgroundColor: custom_colors.pinkPrimary,
-        elevation: 0,
-        title: const Text(
-          'EmoCV',
-          style: TextStyle(
-            fontSize: 28,
-            letterSpacing: 1,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      drawerEnableOpenDragGesture: true, // Bu özelliği kullanın
-      drawer: Container(
-        width: MediaQuery.of(context).size.width / 1.3,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(3, 0), // Offset'ı sağa doğru ayarlayın
+          title: const Text('EmoCV'),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: _handleMenuButtonPressed,
+            icon: ValueListenableBuilder<AdvancedDrawerValue>(
+              valueListenable: _advancedDrawerController,
+              builder: (_, value, __) {
+                return AnimatedSwitcher(
+                  duration: Duration(milliseconds: 250),
+                  child: Icon(
+                    value.visible ? Icons.clear : Icons.menu,
+                    key: ValueKey<bool>(value.visible),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
-        child: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              SizedBox(height: 100,
-                child: DrawerHeader(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage("lib/images/aa.png"),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'User',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(height: 3),
-                          GestureDetector(
-                            // onTap: () => Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) {
-                            //     return const ProfilePage();
-                            //   }),
-                            // ),
-                            child: Text(
-                              "View Profile",
-                              style: TextStyle(
-                                color: custom_colors.pinkPrimary,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: custom_colors.pinkPrimary,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Settings"),
-                onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  //   return const SettingsPage();
-                  // }));
-                },
-              ),
-              ListTile(
-                title: Text("Playing Song"),
-                onTap: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  //   return const SongPage();
-                  // }));
-                },
-              ),
-            ],
           ),
         ),
-      ),
+      
+      
       body: Stack(
         children: [
           // Display the current page
@@ -173,6 +128,73 @@ class _NavBarState extends State<NavBar> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         ),
       ),
-    );
+    ),
+    drawer: SafeArea(
+        child: Container(
+          child: ListTileTheme(
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: 128.0,
+                  height: 128.0,
+                  margin: const EdgeInsets.only(
+                    top: 24.0,
+                    bottom: 64.0,
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'lib/images/aa.png',
+                  ),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(Icons.home),
+                  title: Text('Home'),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(Icons.account_circle_rounded),
+                  title: Text('Profile'),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(Icons.favorite),
+                  title: Text('Favourites'),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(Icons.settings),
+                  title: Text('Settings'),
+                ),
+                Spacer(),
+                DefaultTextStyle(
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white54,
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                    ),
+                    child: Text('Terms of Service | Privacy Policy'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),);
+  }
+  void _handleMenuButtonPressed() {
+    // NOTICE: Manage Advanced Drawer state through the Controller.
+    // _advancedDrawerController.value = AdvancedDrawerValue.visible();
+    _advancedDrawerController.showDrawer();
   }
 }
