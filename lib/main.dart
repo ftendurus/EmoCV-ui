@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme:
-            ThemeData(fontFamily: 'Hyperspacerace', hintColor: Colors.white),
+        theme: ThemeData(fontFamily: 'Hyperspacerace', hintColor: Colors.white),
         home: MainPage(),
       ),
     );

@@ -35,18 +35,17 @@ class _MainMenuSongPlayerState extends State<MainMenuSongPlayer>
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(5),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       width: double.infinity,
       height: 80,
       decoration: const BoxDecoration(
         color: Color.fromARGB(224, 49, 34, 68),
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20)
-        ),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20)),
       ),
       child: Center(
         child: ListTile(

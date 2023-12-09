@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/colors.dart' as custom_colors;
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -45,7 +44,14 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        
+        appBar: AppBar(
+          title: Text(
+            "Profile",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: custom_colors.pinkPrimary,
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -76,7 +82,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: ListView(children: <Widget>[
                   ListTile(
                     leading: const Icon(Icons.person),
-                    title: Text(userName,style: TextStyle(color:custom_colors.blackSecondary),),
+                    title: Text(
+                      userName,
+                      style: TextStyle(color: custom_colors.blackSecondary),
+                    ),
                   ),
                   ListTile(
                     leading: const Icon(Icons.email),
